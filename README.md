@@ -1,5 +1,8 @@
 # Ping-Pong and World Wide Web
 
+##Group Member
+Wenbo Bu, Li Shen, Jie Zhu
+
 ##Introduction
 
 In this project, a "ping-pong" client program and a server program are developed. The "ping-pong" client and the server together are used to measure the network's performance in transmitting messages of various sizes.
