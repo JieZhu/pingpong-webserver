@@ -15,18 +15,18 @@ void set_timestamp(char* sendbuf, struct timeval* tv) {
   }
 }
 
-void get_timestamp(char* recvbuf, struct timeval* tv) {
-  if (recvbuf && tv) {
-    tv->tv_sec = ntohl(*(int*)(recvbuf + 2));
-    tv->tv_usec = ntohl(*(int*)(recvbuf + 6));
+void get_timestamp(struct timeval* tv) {
+  if (tv) {
+    if (gettimeofday(tv, NULL) != 0) {
+      perror("Failed to get current time!");
+      abort();
+    }
   }
 }
 
 unsigned long get_latency(struct timeval* start, struct timeval* end) {
   if (start && end) {
-    unsigned long interval = 1000000 * (end->tv_sec - start->tv_sec) + end->tv_usec - start->tv_usec;
-
-    return interval / 2;
+    return 1000000 * (end->tv_sec - start->tv_sec) + end->tv_usec - start->tv_usec;
   }
 
   return 0;
