@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
   }
 
   /* latency is expressed in millisecond */
-  printf("%.3f ms", (double)sum_latency / (1000 * count));
+  printf("Average latency: %.3f ms\n", (double)sum_latency / (1000 * count));
 
   /* free resources */
   close(sockfd);
