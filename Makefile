@@ -1,4 +1,5 @@
 all: client server
+
 client: client.c time.c time.h
 	gcc -g -Wall -o client client.c time.c
 
