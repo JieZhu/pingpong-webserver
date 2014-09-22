@@ -7,6 +7,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include "client_util.h"
 #include "time.h"
 
 int main(int argc, char** argv) {
@@ -55,24 +56,7 @@ int main(int argc, char** argv) {
   }
 
   /* the client socket */
-  int sockfd;
-  if ((sockfd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
-    perror("Failed to open TCP socket!");
-    abort();
-  }
-
-  /* fill in the server's address */
-  struct sockaddr_in sin;
-  memset(&sin, 0, sizeof(sin));
-  sin.sin_family = AF_INET;
-  sin.sin_addr.s_addr = server_addr;
-  sin.sin_port = htons(server_port);
-
-  /* connect to the server */
-  if (connect(sockfd, (struct sockaddr*)&sin, sizeof(sin)) < 0) {
-    perror("Failed to connect to server!");
-    abort();
-  }
+  int sockfd = client_ready(server_addr, server_port);
 
   /* calculate the average latency */
   unsigned long sum_latency = 0;
@@ -82,9 +66,9 @@ int main(int argc, char** argv) {
 
   while (test_count > 0) {
     set_timestamp(sendbuf, &start);
-    send(sockfd, sendbuf, size, 0);
+    send_blocking(sockfd, sendbuf, size);
 
-    recv(sockfd, recvbuf, size, 0);
+    recv_blocking(sockfd, recvbuf, size);
     get_timestamp(&end);
 
     sum_latency += get_latency(&start, &end);
