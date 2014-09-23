@@ -4,7 +4,6 @@
 #include "socket_node.h"
 
 int server_ready(unsigned short, int);
-int client_ready(unsigned int, unsigned short);
 void send_blocking(int, char*, int);
 void recv_blocking(int, char*, int);
 int send_non_blocking(struct node*);
