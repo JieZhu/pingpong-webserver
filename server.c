@@ -7,6 +7,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include "socket_node.h"
 #include "server_util.h"
 #include "web_mode.h"
@@ -132,7 +133,21 @@ int main(int argc, char **argv) {
         }
 
         if (root_dir != NULL) {
-
+    
+ 
+            recv(new_sockfd, recvbuf, BUF_LEN, 0);
+            printf("%s\n", recvbuf);
+                        
+            handle_req(recvbuf, new_sockfd, root_dir);
+            
+            /*send(new_sockfd, "HTTP/1.1 200 OK \r\n", 18, 0);
+            send(new_sockfd, "Content-Type: text/html \r\n", 26, 0);
+            send(new_sockfd, "\r\n", 2, 0);
+            send(new_sockfd, "<html><body><H1>Hello world Jie Zhu</H1></body></html>",46, 0);*/
+            
+            close(new_sockfd);
+            continue;
+            
         }
 
         /* make the socket non-blocking so send and recv will
@@ -174,6 +189,10 @@ int main(int argc, char **argv) {
           handle_error(count, &head, current);
         }
       }
+        
+        
+        
+        
     }
   }
 }
